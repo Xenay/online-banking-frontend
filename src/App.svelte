@@ -1,16 +1,28 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+
   import LoginForm from './lib/LoginModal.svelte'
+  import { user } from './utils/auth.js';
+  import {push} from 'svelte-spa-router';
+  import Router from "svelte-spa-router"
+  import Route from 'svelte-spa-router';
+  import Dashboard from './routes/Dashboard.svelte';
+  import routes from './routes.js'; // Assuming you defined your routes here
+
+ 
+ // Auto-subscription method to get the latest value of the user store
+let isLoggedIn = $user?.isAuthenticated || false;
+
+// Using a reactive statement to perform actions when the store's value changes
+$: if ($user && $user.isAuthenticated) {
+  console.log('User is authenticated', $user);
+  push('/dashboard');
+}
 </script>
 
-<main>
-    <LoginForm />
 
-  <div class="card">
-    <Counter />
-  </div>
+
+<main>
+  <Router {routes} />
 
 </main>
 
