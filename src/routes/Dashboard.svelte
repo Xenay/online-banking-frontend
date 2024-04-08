@@ -1,9 +1,8 @@
 <script>
     import { user } from '../utils/auth';
     import { onMount } from 'svelte';
-  
+    import AccountBalance from '../lib/AccountBalance.svelte';
     let showConfirmLogout = false;
-  
     /**
    * @param {string} option
    */
@@ -29,9 +28,15 @@
     }
   </script>
   
+  <div class="">
+  <h1 class="py-10">Account Overview</h1>
+    <div class="py-10">
+  <AccountBalance />
+    </div>
+
   {#if !showConfirmLogout}
     <div>
-      <p>Select an option:</p>
+      <p class="p-5">Select an option:</p>
       <ul>
         <li><button on:click={() => handleMenuSelection('logout')}>Logout</button></li>
         <!-- Additional menu options will be added here -->
@@ -44,4 +49,5 @@
       <button on:click={() => confirmLogout(false)}>No</button>
     </div>
   {/if}
+</div>
   
