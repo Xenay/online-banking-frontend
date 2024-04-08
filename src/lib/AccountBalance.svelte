@@ -9,11 +9,18 @@
     };
   
     onMount(async () => {
+    try {
       const response = await fetch('http://localhost:9090/api/account');
-      console.log(response);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       accountDetails = await response.json();
-      console.log(accountDetails);
-    });
+    } catch (error) {
+      console.error("Failed to fetch account details:", error);
+      // Handle the error or display a message to the user
+    }
+  });
+
   </script>
   
   {#if accountDetails.accountNumber}
