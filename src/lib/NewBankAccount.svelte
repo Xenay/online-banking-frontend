@@ -56,15 +56,15 @@
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="modal-content" on:click|stopPropagation>
   <form on:submit|preventDefault={submitForm}>
-    <input bind:value={name} placeholder="Name" />
-    <select bind:value={type}>
-      <option value="">Select Type</option>
+    <input bind:value={name} placeholder="Name" style="background-color: whitesmoke;" class="py-2" />
+    <select bind:value={type} style="background-color: whitesmoke;">
+      <option value="" >Select Type</option>
       <option value="CHECKING">Checking Account</option>
       <option value="SAVINGS">Savings Account</option>
       <option value="FOREIGN_CURRENCY">Foreign Currency Account</option>
       <option value="GIRO">Giro Account</option>
     </select>
-    <input type="number" bind:value={minimumBalance} placeholder="Minimum Balance" />
+    <input type="number" class="py-2" bind:value={minimumBalance} placeholder="Minimum Balance"  style="background-color: whitesmoke;"/>
     <button type="submit">Create Account</button>
     <button type="button" on:click={closeForm}>Cancel</button>
   </form>

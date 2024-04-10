@@ -11,8 +11,7 @@
     let message = writable('');
   
     async function handleLogin() {
-    console.log(JSON.stringify({ username, password }));
-      const response = await fetch('http://localhost:9090/api/login', {
+      const response = await fetch('http://localhost:9090/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -20,14 +19,19 @@
         body: JSON.stringify({ username, password })
       });
       
-      const data = await response.text();
+      console.log(response);
+      const data = await response.json();
       if(response.status === 200) {
+       
+        console.log(username);
         // @ts-ignore
-        user.set({ username: username, isAuthenticated: true });
+        user.set({ username: username, isAuthenticated: true, token: data.token });
     
       }
+      console.log(data);
       message.set(data);
-    }
+    
+  }
   </script>
   
   <form on:submit|preventDefault={handleLogin}>
