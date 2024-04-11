@@ -1,19 +1,41 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { user } from "../utils/auth";
+  import { get } from "svelte/store";
 
   let recipientName = "";
   let recipientIban = "";
   let amount = "";
   let paymentDescription = "";
+  let accounts = [];
+  let senderIban = "";
+  recipientName = "";
+  let paymentType = "PAYMENT";
+
   let accountDetails = {
     id: 0,
     accountNumber: "",
     balance: 0,
     currency: "",
+   
   };
   const dispatch = createEventDispatcher();
-
+  
+  async function fetchBankAccounts() {
+      const currentUser = $user;
+      const response = await fetch(`http://localhost:9090/api/user/bank-accounts?username=${currentUser.username}`);
+      if (response.ok) {
+        accounts = await response.json();
+        console.log("accounts", accounts);
+        // Correctly initialize fromAccountId and toAccountId
+      } else {
+        console.error('Failed to fetch bank accounts');
+      }
+    }
+  
+    onMount(() => {
+      fetchBankAccounts();
+    });
   async function submitForm() {
     try {
       const response = await fetch('http://localhost:9090/api/account');
@@ -26,7 +48,7 @@
       // Handle the error or display a message to the user
     }
     console.log(accountDetails);
-    console.log(recipientIban, recipientName, amount, paymentDescription, accountDetails.id);
+    console.log(recipientName, senderIban, recipientIban, amount, paymentDescription, accountDetails.id);
     let transactionDate = Date.now();
     const response = await fetch("http://localhost:9090/api/payment-orders", {
       method: "POST",
@@ -34,11 +56,15 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        recipientName,
-        recipientIban,
-        amount,
+        recipientName: recipientName,
+        senderIban: senderIban,
+        recipientIban: recipientIban,
+        amount: amount,
         paymentDescription,
-        accountId: accountDetails.id, // Add the user ID to the payment order
+        accountId: $user.id,
+        paymentType: paymentType,
+       
+ // Add the user ID to the payment order
       }),
     });
 
@@ -70,6 +96,7 @@
   function handleClose() {
     dispatch("close");
   } // Function passed down from the parent
+  
 </script>
 
 <div class="px-20">
@@ -86,6 +113,13 @@
       class="py-4 mb-8 rounded-md"
       style="background-color: #fcd4d4;"
     />
+    <p class="text-left text-sm py-2">Sa računa</p>
+<select bind:value={senderIban} required class="py-4 mb-8 rounded-md" style="background-color: #fcd4d4;">
+  <!-- Assuming `userAccounts` is an array of the user's accounts -->
+  {#each accounts as account}
+    <option value={account.iban}>IBAN - {account.iban} - Balance: {account.balance}</option>
+  {/each}
+</select>
     <p class="text-left text-sm py-2">IBAN Primatelja</p>
     <input
       type="text"

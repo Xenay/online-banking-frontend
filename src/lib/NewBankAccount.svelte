@@ -1,32 +1,42 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
+  import { user } from '../utils/auth';
 
-    const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
 
-    let name = '';
-    let type = '';
-    let minimumBalance = 0;
+  let name = '';
+  let type = '';
+  let minimumBalance = 0;
 
-    let accountDetails = {
-      accountNumber: '',
-      balance: 0,
-      currency: '',
-      id: 0,
-    };
+  let accountDetails = {
+    accountNumber: '',
+    balance: 0,
+    currency: '',
+    IBAN: "", // This will be replaced with a random number
+    id: 1,
+  };
+
+  // Function to generate a random 16-digit number
+  function generateRandomId() {
+    // Generate a random number between 1e15 (inclusive) and 1e16 (exclusive)
   
-    async function submitForm() {
+    const randomId = Math.floor(Math.random() * 10000000000000000);
+    return randomId.toString().padStart(16, '0');
+  }
 
+
+  async function submitForm() {
+    // Assign a random ID to accountDetails.id
+    accountDetails.IBAN = generateRandomId();
+    console.log(JSON.stringify({
+          name: name,
+          type: type,
+          minimumBalance: minimumBalance,
+          IBAN: accountDetails.IBAN,
+          accountId: accountDetails.id,
+        }),);
+    // Proceed with your existing logic to submit the account details
     try {
-      const response = await fetch('http://localhost:9090/api/account');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      accountDetails = await response.json();
-    } catch (error) {
-      console.error("Failed to fetch account details:", error);
-      // Handle the error or display a message to the user
-    }
-        
       const response = await fetch('http://localhost:9090/api/bank-accounts', {
         method: 'POST',
         headers: {
@@ -36,22 +46,29 @@
           name: name,
           type: type,
           minimumBalance: minimumBalance,
-          accountId: accountDetails.id,
+          iban: accountDetails.IBAN,
+          accountId: $user.id,
+ // Use the generated random ID
         }),
       });
-  
+
       if (response.ok) {
-        // Handle success - maybe clear form or show a success message
+        // Handle success
         dispatch('close');
       } else {
-        // Handle failure - show an error message
+        // Handle failure
       }
-      
+    } catch (error) {
+      console.error("Failed to create bank account:", error);
     }
-    function closeForm() {
+  }
+
+  function closeForm() {
     dispatch('close');
   }
-  </script>
+
+</script>
+
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="modal-content" on:click|stopPropagation>

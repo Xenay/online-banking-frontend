@@ -21,7 +21,7 @@ $: if ($user && $user.isAuthenticated) {
 
 
 
-<main>
+<main class="" style="">
   <Router {routes} />
 
 </main>
@@ -42,4 +42,5 @@ $: if ($user && $user.isAuthenticated) {
   .read-the-docs {
     color: #888;
   }
+  
 </style>

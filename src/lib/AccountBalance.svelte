@@ -1,32 +1,28 @@
 <!-- src/components/AccountBalance.svelte -->
 <script>
     import { onMount } from 'svelte';
-  
+    import { user } from '../utils/auth';
     let accountDetails = {
       accountNumber: '',
       balance: 0,
       currency: ''
     };
+    let user2 = {};
+    
   
     onMount(async () => {
-    try {
-      const response = await fetch('http://localhost:9090/api/account');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      accountDetails = await response.json();
-    } catch (error) {
-      console.error("Failed to fetch account details:", error);
-      // Handle the error or display a message to the user
-    }
-  });
+  
+      user2 = $user;
+      
 
+    });
   </script>
   
-  {#if accountDetails.accountNumber}
-    <div>
-      <p>Account Number: {accountDetails.accountNumber}</p>
-      <p>Balance: {accountDetails.balance} {accountDetails.currency}</p>
+  {#if $user.username}
+    <div class="border-b-2 border-dotted border-red-200 shadow-sm px-2">
+      <p class="py-2 font-mono">Account Number: 123456789</p>
+      <p class="font-mono">Hi, {$user.username}</p>
+      
     </div>
   {:else}
     <p>Loading account details...</p>

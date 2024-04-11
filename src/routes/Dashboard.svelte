@@ -6,9 +6,11 @@
   import TransactionsList from "../lib/TransactionsList.svelte";
   import NewBankAccount from "../lib/NewBankAccount.svelte";
   import BankAccounts from "../lib/BankAccounts.svelte";
+  import InternalTransferForm from "../lib/InternalTransferForm.svelte";
   let showConfirmLogout = false;
   let showPaymentModal = false; // State to control the visibility of the PaymentModal
-  let showBankAccountForm = false; // State to control the visibility of the CreateAccountModal
+  let showBankAccountForm = false;
+  let showTransferModal = false; // State to control the visibility of the CreateAccountModal
   /**
    * @param {string} option
    */
@@ -21,6 +23,11 @@
         showPaymentModal = true;
         break;
       // Add cases for other menu options here
+    
+      // Existing cases remain unchanged
+      case "transfer":
+        showTransferModal = true;
+        break;
     }
   }
 
@@ -41,7 +48,9 @@
   function closePaymentModal() {
     showPaymentModal = false;
   }
-
+  function closeTransferModal() {
+    showTransferModal = false;
+  }
   function closeBankCreationModal() {
     showBankAccountForm = false;
   }
@@ -51,22 +60,32 @@
 </script>
 
 <div class="">
-  <h1 class="py-10">Account Overview</h1>
-  <div class="py-10">
+  <div class=" bg-gradient-to-b from-red-100 to-red-50">
+  <h1 class="py-10 flex justify-center border-2 border-dotted border-red-200">Account Overview</h1>
+</div>
+  <div class="py-0 flex justify-left">
     <AccountBalance />
   </div>
-
-  {#if !showConfirmLogout}
-    <div>
-      <p class="p-5">Select an option:</p>
-      <div class="flex justify-center">
-        <div class="px-5">
-          <button on:click={() => handleMenuSelection("logout")}>Logout</button>
+  <div class="flex">
+  <div class="py-10 flex flex-col justify-start">
+    <BankAccounts />
+    <button  on:click={handleNewAccountClick} class="mt-5 flex justify-start max-w-sm bg-red-200 border-2 border-dashed border-red-300"
+>Open New Account</button
+>
+{#if !showConfirmLogout}
+    <div class="flex justify-start">
+      
+      <div class="flex justify-center pt-4">
+        <div class="mr-4">
+          <button class="bg-red-200 border-2 border-dashed border-red-300" on:click={() => handleMenuSelection("logout")}>Logout</button>
         </div>
         <div class="">
-          <button on:click={() => handleMenuSelection("payment")}
+          <button class="bg-red-200 border-2 border-dashed border-red-300" on:click={() => handleMenuSelection("payment")}
             >Make a Payment</button
           >
+        </div>
+        <div class="px-5">
+          <button class="bg-red-200 border-2 border-dashed border-red-300" on:click={() => handleMenuSelection("transfer")}>Internal Transfer</button>
         </div>
         <!-- Payment button -->
         <!-- Additional menu options will be added here -->
@@ -79,6 +98,24 @@
       <button on:click={() => confirmLogout(false)}>No</button>
     </div>
   {/if}
+  </div>
+  
+  <div class="py-0 ml-20  flex justify-center">
+    <TransactionsList />
+  </div>
+</div>
+
+  
+ 
+
+  {#if showTransferModal}
+  <div class="modal-overlay">
+    <div class="modal-content">
+      <InternalTransferForm on:close={closeTransferModal} />
+    </div>
+  </div>
+  
+{/if}
 
   {#if showPaymentModal}
     <!-- Modal overlay and content container -->
@@ -91,10 +128,7 @@
     </div>
   {/if}
 
-  <button on:click={handleNewAccountClick} class="mt-5"
-    >Open New Account Form</button
-  >
-
+  
   {#if showBankAccountForm}
     <div class="modal-overlay">
       <button class="modal-content" on:click={closeBankCreationModal}>
@@ -102,14 +136,12 @@
       </button>
     </div>
   {/if}
-</div>
-<div class="py-10 flex justify-center">
-  <BankAccounts />
+
+
 </div>
 
-<div class="py-10 flex justify-center">
-  <TransactionsList />
-</div>
+
+
 
 <style>
   .modal-overlay {
