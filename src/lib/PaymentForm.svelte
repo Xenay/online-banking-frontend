@@ -101,7 +101,7 @@
 
 <div class="px-20">
 <div>
-    <p class="py-10 text-lg">Make a Payment</p>
+    <p class="mb-10 text-xl border-b-2 border-red-200 text-center font-mono  font-bold">Make a Payment</p>
 </div>  
   <form on:submit|preventDefault={submitForm} class=" grid grid-flow-row p-4 py-2 w-full">
     <p class="text-left text-sm py-2">Ime Primatelja</p>
@@ -110,11 +110,12 @@
       bind:value={recipientName}
       placeholder="Recipient Name"
       required
-      class="py-4 mb-8 rounded-md"
-      style="background-color: #fcd4d4;"
+      class="shadow appearance-none border rounded w-full py-3 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      style="background-color: white;"
     />
     <p class="text-left text-sm py-2">Sa računa</p>
-<select bind:value={senderIban} required class="py-4 mb-8 rounded-md" style="background-color: #fcd4d4;">
+<select bind:value={senderIban} required class="shadow appearance-none border rounded w-full py-3 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+style="background-color: white;">
   <!-- Assuming `userAccounts` is an array of the user's accounts -->
   {#each accounts as account}
     <option value={account.iban}>IBAN - {account.iban} - Balance: {account.balance}</option>
@@ -126,8 +127,10 @@
       bind:value={recipientIban}
       placeholder="Recipient IBAN"
       required
-      class="py-4 mb-8 rounded-md"
-      style="background-color: #fcd4d4;"
+      class="shadow appearance-none border rounded w-full py-3 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      style="background-color: white;"
+
+      
     />
     <p class="text-left text-sm py-2">Iznos (u EUR)</p>
     <input
@@ -136,15 +139,14 @@
       placeholder="Amount"
       required
       step="0.01"
-      class="py-4 mb-8 rounded-md"
-      style="background-color: #fcd4d4;"
+      class="shadow appearance-none border rounded w-full py-3 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      style="background-color: white;"
     />
     <p class="text-left text-sm py-2">Opis Plaćanja</p>
     <textarea
       bind:value={paymentDescription}
       placeholder="Payment Description"
-      class="py-4 mb-8 rounded-md"
-      style="background-color: #fcd4d4;"
+      class="py-4 mb-8 rounded-sm border-b-2 border-red-200 shadow-sm bg-white"
     ></textarea>
     <button type="submit" class="py-4">Submit Payment Order</button>
   </form>

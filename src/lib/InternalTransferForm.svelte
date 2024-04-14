@@ -64,28 +64,41 @@
 
     
   </script>
-  
-  <div>
-    <select bind:value={fromAccountId}>
-        <option disabled value={undefined}>Select source account</option>
-        {#each accounts as account, index}
-          <option value={account.id}>{account.name} - Balance: ${account.balance}</option>
-        {/each}
-      </select>
-      
-      <select bind:value={toAccountId}>
-        <option disabled value={undefined}>Select destination account</option>
-        {#each accounts as account, index}
-          {#if account.id !== fromAccountId}
+    <div class="w-full px-4 bg-white rounded-lg shadow-md">
+      <div class="mb-4 ">
+        <label class="block  px-40 text-gray-700 text-sm font-bold mb-2" for="from-account">From Account</label>
+        <select bind:value={fromAccountId} class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="from-account">
+          <option disabled value={undefined}>Select source account</option>
+          {#each accounts as account, index}
             <option value={account.id}>{account.name} - Balance: ${account.balance}</option>
-          {/if}
-        {/each}
-      </select>
+          {/each}
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block  px-40 text-gray-700 text-sm font-bold mb-2" for="to-account">To Account</label>
+        <select bind:value={toAccountId} class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="to-account">
+          <option disabled value={undefined}>Select destination account</option>
+          {#each accounts as account}
+            {#if account.id !== fromAccountId}
+              <option class=" px-40" value={account.id}>{account.name} - Balance: ${account.balance}</option>
+            {/if}
+          {/each}
+        </select>
+      </div>
   
-    <input type="number" bind:value={amount} placeholder="Amount" />
-    <input type="text" bind:value={description} placeholder="Description" />
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="amount">Amount</label>
+        <input type="number" style="background-color: white;" bind:value={amount} placeholder="Amount" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="amount" />
+      </div>
+      
+      <div class="mb-10">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Description</label>
+        <input type="text" style="background-color: white;" bind:value={description} placeholder="Description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" />
+      </div>
   
-    <button on:click={submitTransfer}>Submit Transfer</button>
-    <button on:click={() => dispatch('close')}>Cancel</button>
+    <div class="flex items-center justify-between py-10">
+      <button on:click={submitTransfer} class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit Transfer</button>
+      <button on:click={() => dispatch('close')} class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
+    </div>
   </div>
   

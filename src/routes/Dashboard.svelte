@@ -7,6 +7,7 @@
   import NewBankAccount from "../lib/NewBankAccount.svelte";
   import BankAccounts from "../lib/BankAccounts.svelte";
   import InternalTransferForm from "../lib/InternalTransferForm.svelte";
+  import Navbar from "../lib/Navbar.svelte";
   let showConfirmLogout = false;
   let showPaymentModal = false; // State to control the visibility of the PaymentModal
   let showBankAccountForm = false;
@@ -60,9 +61,11 @@
 </script>
 
 <div class="">
-  <div class=" bg-gradient-to-b from-red-100 to-red-50">
-  <h1 class="py-10 flex justify-center border-2 border-dotted border-red-200">Account Overview</h1>
-</div>
+  <!-- <div class=" bg-gradient-to-b from-red-300 to-red-300">
+  <h1 class="py-1 flex justify-start border-2 border-dotted border-red-200 text-lg">Account Overview</h1>
+</div> -->
+<Navbar />
+<div class="px-10">
   <div class="py-0 flex justify-left">
     <AccountBalance />
   </div>
@@ -105,7 +108,7 @@
   </div>
 </div>
 
-  
+</div>
  
 
   {#if showTransferModal}

@@ -1,4 +1,5 @@
 <script>
+  import { push } from 'svelte-spa-router';
     import { writable } from 'svelte/store';
 
     let username = '';
@@ -21,7 +22,8 @@
         try {
             const result = await response.json();
             if (response.ok) {
-            
+                push('/login');
+
             }
         } catch (e) {
             // This will handle cases where the response is not in JSON format.
@@ -34,16 +36,16 @@
 }
 </script>
 
-<form on:submit|preventDefault={handleRegister}>
-    <div>
-        <label for="username">Username:</label>
-        <input id="username" type="text" bind:value={username} />
+<form class="p-6 bg-white rounded-lg shadow-xl animate-scale-in max-w-xl flex flex-col justify-center m-auto" on:submit|preventDefault={handleRegister}>
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username:</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"  id="username" type="text" bind:value={username} style="background-color: white;"/>
     </div>
     <div>
-        <label for="password">Password:</label>
-        <input id="password" type="password" bind:value={password} />
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password:</label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" bind:value={password} style="background-color: white;" />
     </div>
-    <button type="submit">Register</button>
+    <button type="submit" class="text-white">Register</button>
 </form>
 
 {#if $message}
