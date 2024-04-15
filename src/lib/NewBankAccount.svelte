@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { user } from '../utils/auth';
+  import { locale, dictionary, getLocaleFromNavigator, t } from 'svelte-i18n';
 
   const dispatch = createEventDispatcher();
 
@@ -71,19 +72,23 @@
 
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="modal-content" on:click|stopPropagation>
+  <div class="flex shadow-xl animate-scale-in" on:click|stopPropagation>
   <form on:submit|preventDefault={submitForm}>
-    <input bind:value={name} placeholder="Name" style="background-color: whitesmoke;" class="py-2" />
-    <select bind:value={type} style="background-color: whitesmoke;">
-      <option value="" >Select Type</option>
-      <option value="CHECKING">Checking Account</option>
-      <option value="SAVINGS">Savings Account</option>
-      <option value="FOREIGN_CURRENCY">Foreign Currency Account</option>
-      <option value="GIRO">Giro Account</option>
+    <p class="text-center text-sm font-mono mb-4 border-b-2 border-red-200">{$t("newAccount")}</p>
+    <p class="text-start text-sm font-mono mb-4">{$t("newAccount")}</p>
+    <input bind:value={name} placeholder="Name" style="background-color: whitesmoke;" class="py-3 flex w-full" />
+    <p class="text-start text-sm font-mono py-4">{$t("accountType")}</p>
+    <select bind:value={type} style="background-color: whitesmoke;" class="flex mb-5 py-3 justify-center w-full">
+      <option value="" >{$t("optionType")}</option>
+      <option value="CHECKING">{$t("checking")}</option>
+      <option value="SAVINGS">{$t("savings")}</option>
+      <option value="FOREIGN_CURRENCY">{$t("foreignCurrency")}</option>
+      <option value="GIRO">{$t("giro")}</option>
     </select>
-    <input type="number" class="py-2" bind:value={minimumBalance} placeholder="Minimum Balance"  style="background-color: whitesmoke;"/>
-    <button type="submit">Create Account</button>
-    <button type="button" on:click={closeForm}>Cancel</button>
+    <p class="text-start text-sm font-mono py-4">{$t("minBalance")}</p>
+    <input type="number" class="flex mt-5 mb-5 py-3 w-full" bind:value={minimumBalance} placeholder="Minimum Balance"  style="background-color: whitesmoke;"/>
+    <button type="submit">{$t("createAccount")}</button>
+    <button type="button" on:click={closeForm}>{$t("cancel")}</button>
   </form>
   
 </div>

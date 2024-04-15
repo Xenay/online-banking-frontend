@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { user } from '../utils/auth';
+    import { locale, dictionary, getLocaleFromNavigator, t } from 'svelte-i18n';
     /**
    * @type {any[]}
    */
@@ -77,37 +78,37 @@
   </script>
   <div>
  <div class="px-4 sm:px-0"> 
-  <h1 class="text-lg leading-0 mb-2 font-medium text-gray-900 border-b-2 border-red-200 border-dashed font-mono">Recent Transactions</h1>
+  <h1 class="text-lg leading-0 mb-2 font-medium text-gray-900 border-b-2 border-red-200 border-dashed font-mono">{$t("recentTransactions")}</h1>
 </div>
 <div class="px-4 sm:px-0"> 
-  <h1 class="text-lg font-medium text-gray-900 font-mono">Filters:</h1>
+  <h1 class="text-lg font-medium text-gray-900 font-mono">{$t("Filters")}:</h1>
 </div>
 <div>
   <input type="date" style="background-color: white;" class=" border-2 border-dashed border-red-200" bind:value={startDate} placeholder="Start Date">
   <input type="date" style="background-color: white;" class=" border-2 border-dashed border-red-200" bind:value={endDate} placeholder="End Date">
   <select bind:value={transactionType} style="background-color: white;" class=" border-2 border-dashed border-red-200">
-    <option value="" >All Transactions</option>
-    <option value="deposit">Deposits</option>
-    <option value="withdrawal">Withdrawals</option>
-    <option value="PAYMENT">Payment</option>
+    <option value="" >{$t("allTransactions")}</option>
+    <option value="deposit">{$t("deposit")}</option>
+    <option value="withdrawal">{$t("withdrawal")}</option>
+    <option value="PAYMENT">{$t("payment")}</option>
   </select>
   <input type="text" bind:value={partyName} placeholder="Party Name" style="background-color: white;" class=" border-2 border-dashed border-red-200">
   <input type="number" bind:value={minAmount} placeholder="Minimum Amount" style="background-color: white;" class=" border-2 border-dashed border-red-200">
   <input type="number" bind:value={maxAmount} placeholder="Maximum Amount" style="background-color: white;" class=" border-2 border-dashed border-red-200">
-  <button class="py-2 mt-4 ml-5 bg-red-200 border-2 border-dashed border-red-300" on:click={fetchTransactions}>Apply Filters</button>
+  <button class="py-2 mt-4 ml-0 bg-red-200 border-2 border-dashed border-red-300" on:click={fetchTransactions}>{$t("applyFilters")}</button>
 </div>
 <div class="table-container">
 
   <table class="w-full table-auto shadow-md mt-4 overflow-auto">
     <thead class="bg-red-100 text-black uppercase text-sm leading-normal">
         <tr>
-            <th class="py-3 px-6 text-left">Date</th>
-            <th class="py-3 px-6 text-left">Recipient</th>
-            <th class="py-3 px-6 text-left">Recipient IBAN</th>
-            <th class="py-3 px-6 text-left">Sender IBAN</th>
-            <th class="py-3 px-6 text-left">Amount</th>
-            <th class="py-3 px-6 text-left">Description</th>
-            <th class="py-3 px-6 text-left">Transaction type</th>
+            <th class="py-3 px-6 text-left">{$t("date")}</th>
+            <th class="py-3 px-6 text-left">{$t("recipient")}</th>
+            <th class="py-3 px-6 text-left">{$t("recipientIban")}</th>
+            <th class="py-3 px-6 text-left">{$t("senderIban")}</th>
+            <th class="py-3 px-6 text-left">{$t("amount")}</th>
+            <th class="py-3 px-6 text-left">{$t("descrition")}</th>
+            <th class="py-3 px-6 text-left">{$t("transactionType")}</th>
         </tr>
     </thead>
     <tbody class="text-gray-600 text-sm font-light ">

@@ -2,6 +2,7 @@
   import { createEventDispatcher, onMount } from "svelte";
   import { user } from "../utils/auth";
   import { get } from "svelte/store";
+  import { locale, dictionary, getLocaleFromNavigator, t } from "svelte-i18n";
 
   let recipientName = "";
   let recipientIban = "";
@@ -99,12 +100,12 @@
   
 </script>
 
-<div class="px-20">
+<div class="px-20 shadow-xl animate-scale-in">
 <div>
-    <p class="mb-10 text-xl border-b-2 border-red-200 text-center font-mono  font-bold">Make a Payment</p>
+    <p class="mb-10 text-xl border-b-2 border-red-200 text-center font-mono  font-bold">{$t("makePayment")}</p>
 </div>  
   <form on:submit|preventDefault={submitForm} class=" grid grid-flow-row p-4 py-2 w-full">
-    <p class="text-left text-sm py-2">Ime Primatelja</p>
+    <p class="text-left text-sm py-2">{$t("recipientName")}</p>
     <input
       type="text"
       bind:value={recipientName}
@@ -113,15 +114,15 @@
       class="shadow appearance-none border rounded w-full py-3 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       style="background-color: white;"
     />
-    <p class="text-left text-sm py-2">Sa računa</p>
+    <p class="text-left text-sm py-2">{$t("fromAccount")}</p>
 <select bind:value={senderIban} required class="shadow appearance-none border rounded w-full py-3 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 style="background-color: white;">
   <!-- Assuming `userAccounts` is an array of the user's accounts -->
   {#each accounts as account}
-    <option value={account.iban}>IBAN - {account.iban} - Balance: {account.balance}</option>
+    <option value={account.iban}>IBAN - {account.iban} - {$t("balance")}: {account.balance}</option>
   {/each}
 </select>
-    <p class="text-left text-sm py-2">IBAN Primatelja</p>
+    <p class="text-left text-sm py-2">{$t("recipientIban")}</p>
     <input
       type="text"
       bind:value={recipientIban}
@@ -132,7 +133,7 @@ style="background-color: white;">
 
       
     />
-    <p class="text-left text-sm py-2">Iznos (u EUR)</p>
+    <p class="text-left text-sm py-2">{$t("amountEur")}</p>
     <input
       type="number"
       bind:value={amount}
@@ -142,17 +143,20 @@ style="background-color: white;">
       class="shadow appearance-none border rounded w-full py-3 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       style="background-color: white;"
     />
-    <p class="text-left text-sm py-2">Opis Plaćanja</p>
+    <p class="text-left text-sm py-2">{$t("paymentDescription")}</p>
     <textarea
       bind:value={paymentDescription}
       placeholder="Payment Description"
       class="py-4 mb-8 rounded-sm border-b-2 border-red-200 shadow-sm bg-white"
     ></textarea>
-    <button type="submit" class="py-4">Submit Payment Order</button>
+    <div class="flex justify-between">
+    <button type="submit" class="py-4 mr-4">{$t("submitPayment")}</button>
+    <button type="button" on:click={handleClose} class="ml-4">{$t("cancelPayment")}</button>
+  </div>
   </form>
 </div>
 
-<button type="button" on:click={handleClose} class="close-button">Close</button>
+
 
 <style>
   .modal-overlay {

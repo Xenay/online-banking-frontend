@@ -1,34 +1,40 @@
 <script>
+  import { locale, dictionary, getLocaleFromNavigator, t } from 'svelte-i18n';
     let isOpen = false; // State for the hamburger menu
 
     function toggleMenu() {
       isOpen = !isOpen;
       console.log(isOpen);
     }
+    function changeLanguage(e) {
+    console.log('Changing locale to:', e);  // Debugging log
+    locale.set(e);
+  };
 </script>
 
-<nav class="bg-red-300 text-white py-2 px-10 mb-4 flex justify-between items-center shadow-md ">
+<nav class="bg-red-300 text-white py-2 px-10 mb-4 items-center shadow-md flex flex-row justify-between">
+  <div class="flex justify-start">
     <div class="flex items-center space-x-2">
       <img src="src/assets/logoHiRes.png" alt="logo" class="h-8 w-auto">
       <span class="text-xl font-semibold mt-3">.</span>
       <span class="text-lg font-medium mt-3">Banking</span>
     </div>
-    <button class="flex justify-end appearance-none target:bg-none hover: bg-red-300 " on:click={toggleMenu} >
+  </div>
+  <div class="flex justify-end items-center">
+    <select on:change="{e => changeLanguage(e.target.value)}" class="text-black focus:outline-none justify-center bg-red-300" style="outline: none;">
+      <option value="hr">HR</option>
+      <option value="en">EN</option>
+    </select>
+    <button class="flex appearance-none target:bg-none hover: bg-red-300 focus:outline-none bg-none hover:outline-none" on:click={toggleMenu} style="outline: none; hover:outline-none">
       <div class={`hamburger hamburger-11 ${isOpen ? 'is-active' : ''}`}>
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
       </div>
     </button>
-    
-    <div class={`nav-dropdown ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <a href="/" class="p-2 block text-white">Home</a>
-        <a href="/transactions" class="p-2 block text-white">Transactions</a>
-        <a href="/payments" class="p-2 block text-white">Payments</a>
-        <a href="/accounts" class="p-2 block text-white">Accounts</a>
-      </div>
+  </div>    
+   
 </nav>
-
 <style>
 
 .hamburger {
@@ -76,6 +82,12 @@
 
 .hamburger-11.is-active .line:nth-child(3) {
   transform: translateY(-11px) rotate(-45deg);
+}
+select:focus, button:focus {
+  outline: none;  /* Removes the outline */
+}
+select:focus {
+  box-shadow: 0 0 0 2px rgba(245, 101, 101, 0.5); /* Example of adding a subtle shadow instead */
 }
 
 </style>

@@ -8,10 +8,15 @@
   import BankAccounts from "../lib/BankAccounts.svelte";
   import InternalTransferForm from "../lib/InternalTransferForm.svelte";
   import Navbar from "../lib/Navbar.svelte";
+  import { locale, dictionary, getLocaleFromNavigator, t } from 'svelte-i18n';
+
   let showConfirmLogout = false;
   let showPaymentModal = false; // State to control the visibility of the PaymentModal
   let showBankAccountForm = false;
   let showTransferModal = false; // State to control the visibility of the CreateAccountModal
+
+  locale.set(getLocaleFromNavigator());
+  
   /**
    * @param {string} option
    */
@@ -73,22 +78,22 @@
   <div class="py-10 flex flex-col justify-start">
     <BankAccounts />
     <button  on:click={handleNewAccountClick} class="mt-5 flex justify-start max-w-sm bg-red-200 border-2 border-dashed border-red-300"
->Open New Account</button
+>{$t("openNewAccount")}</button
 >
 {#if !showConfirmLogout}
     <div class="flex justify-start">
       
       <div class="flex justify-center pt-4">
         <div class="mr-4">
-          <button class="bg-red-200 border-2 border-dashed border-red-300" on:click={() => handleMenuSelection("logout")}>Logout</button>
+          <button class="bg-red-200 border-2 border-dashed border-red-300" on:click={() => handleMenuSelection("logout")}>{$t("logout")}</button>
         </div>
         <div class="">
           <button class="bg-red-200 border-2 border-dashed border-red-300" on:click={() => handleMenuSelection("payment")}
-            >Make a Payment</button
+            >{$t("makePayment")}</button
           >
         </div>
         <div class="px-5">
-          <button class="bg-red-200 border-2 border-dashed border-red-300" on:click={() => handleMenuSelection("transfer")}>Internal Transfer</button>
+          <button class="bg-red-200 border-2 border-dashed border-red-300" on:click={() => handleMenuSelection("transfer")}>{$t("internalTransfer")}</button>
         </div>
         <!-- Payment button -->
         <!-- Additional menu options will be added here -->
@@ -96,9 +101,9 @@
     </div>
   {:else}
     <div>
-      <p>Are you sure you want to logout?</p>
-      <button on:click={() => confirmLogout(true)}>Yes</button>
-      <button on:click={() => confirmLogout(false)}>No</button>
+      <p>{$t("logout")}</p>
+      <button on:click={() => confirmLogout(true)}>{$t("yes")}</button>
+      <button on:click={() => confirmLogout(false)}>{$t("no")}</button>
     </div>
   {/if}
   </div>
