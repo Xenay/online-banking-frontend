@@ -35,8 +35,8 @@ import { getLocaleFromNavigator, t } from 'svelte-i18n';
 
             }
         } catch (e) {
+            push('/login');
             // This will handle cases where the response is not in JSON format.
-            message.set('An error occurred, and the server did not return a JSON response.');
         }
     } catch (e) {
         console.error('Failed to fetch:', e);
